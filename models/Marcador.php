@@ -1,7 +1,7 @@
 <?php
 namespace Model;
 
-class  Cliente extends ActiveRecord{
+class  Marcador extends ActiveRecord{
     protected static $tabla = 'marcador';
     protected static $columnasDB = ['mar_nombre','mar_latitud', 'mar_longitud', 'mar_situacion'];
     protected static $idTabla = 'mar_id';

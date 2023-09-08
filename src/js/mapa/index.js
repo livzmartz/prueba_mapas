@@ -1,50 +1,46 @@
-import L from "leaflet";
+import L from "leaflet"
 
-const map = L.map('mapa', {
-    center: [15.52,-90.32],
-    zoom : 5,
-    maxZoom : 15,
-    minZoom : 1,
+
+const map = L.map('map', {
+    center: [15.525158, -90.32959],
+    zoom: 7,
 })
-const mapLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	maxZoom: 19,
+
+const mapLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-})
+}).addTo(map)
 
-const carreteraLayer = L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-});
+const markerLayer = L.layerGroup(); 
 
-const markerLayer = L.layerGroup();
-const icono = L.icon({
-    iconUrl : './images/marker.svg',
+const icon = L.icon({
+    iconUrl : './images/cit.png',
     iconSize : [35, 35]
 })
 
-const marcador = L.marker([15.52,-90.32],{
-    icon : icono,
-    draggable : true
-})
+const marker = L.marker([15.525158, -90.32959],{
+    icon
+}).addTo(markerLayer)
 
-L.circle([15.52,-90.32], {radius: 5000}).addTo(markerLayer);
-const popup = L.popup()
-    .setLatLng([15.52,-90.32])
+var tooltip = L.tooltip()
+    .setLatLng([15.525158, -90.32959])
+    .setContent('Hello world!<br />This is a nice tooltip.')
+    .addTo(map);
+
+    var popup = L.popup()
+    .setLatLng([15.525158, -90.32959])
     .setContent('<p>Hello world!<br />This is a nice popup.</p>')
 
-marcador.bindPopup(popup)
-marcador.addTo(markerLayer)
+    marker.bindPopup(popup)
 
-mapLayer.addTo(map)
-carreteraLayer.addTo(map)
+    const coordenadas = [
+        [14.1, -90.5],
+        [14.3, -90.8],
+        [14.6, -90.9],
+        [15.0, -90.6],
+        [15.3, -90.7]
+      ];
+
+var polygon = L.polygon(coordenadas, {color: 'red'}).addTo(map);
+L.circle([14.6, -90.9], {radius: 5000}).addTo(map);
 markerLayer.addTo(map)
-
-map.on('click', (e) => {
-    console.log(e);
-    alert('diste click sobre el mapa')
-})
-
-marcador.on('drag', (e)=>{
-    console.log(e);
-    console.log('moviendo el marcador');
-})
